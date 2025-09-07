@@ -3,13 +3,15 @@ import * as React from "react";
 import { StyleSheet, View } from "react-native";
 import { Button, Text } from "react-native-paper";
 import { responsiveHeightPx } from "@/utils";
-import { theme } from "@/themes";
+import { Page } from "@/components/page";
 
 const AppIntroScreen = () => {
   const router = useRouter();
 
   return (
-    <View style={styles.container}>
+    <Page >
+      <View style={styles.container}>
+
       <Text variant="titleLarge" style={styles.title}>
         CÊFALA – SUA VOZ. SEU ESPAÇO. SUA ESCOLA
       </Text>
@@ -29,7 +31,8 @@ const AppIntroScreen = () => {
           Entrar
         </Button>
       </View>
-    </View>
+      </View>
+    </Page>
   );
 };
 
@@ -38,10 +41,8 @@ export default AppIntroScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: theme.colors.background,
     alignItems: "center",
     justifyContent: "center",
-    padding: responsiveHeightPx(24),
   },
 
   title: {
