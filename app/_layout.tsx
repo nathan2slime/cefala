@@ -22,6 +22,7 @@ import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { PaperProvider } from "react-native-paper";
+import { ThemeProp } from "react-native-paper/lib/typescript/types";
 
 import "react-native-reanimated";
 
@@ -50,15 +51,17 @@ export default function RootLayout() {
   }
 
   return (
-    <PaperProvider theme={theme}>
+    <PaperProvider theme={theme as ThemeProp}>
       <SnackbarProvider>
         <Stack
           screenOptions={{ headerShown: false }}
-          initialRouteName="auth/login"
+          initialRouteName="index"
         >
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
           <Stack.Screen name="+not-found" />
           <Stack.Screen name="auth/login" />
+          <Stack.Screen name="auth/signup" />
+          <Stack.Screen name="index" />
         </Stack>
       </SnackbarProvider>
       <StatusBar style="auto" />

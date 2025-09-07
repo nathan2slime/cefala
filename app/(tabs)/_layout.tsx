@@ -41,7 +41,6 @@ export default function TabLayout() {
               const newIndex = routes.findIndex((r) => r.key === route.key);
               if (newIndex !== -1) {
                 const route = routes[newIndex];
-                console.log(route);
 
                 navigate(route.name);
               }

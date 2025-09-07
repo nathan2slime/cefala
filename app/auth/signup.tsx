@@ -1,12 +1,9 @@
 import { useSnackbar } from "@/providers/snackbar";
 import { supabase } from "@/supabase.config";
-import { theme } from "@/themes";
-import { responsiveHeightPx } from "@/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter } from "expo-router";
 import React from "react";
 import { Controller, useForm } from "react-hook-form";
-import { KeyboardAvoidingView, StyleSheet, View } from "react-native";
+import { KeyboardAvoidingView, View } from "react-native";
 import {
   Appbar,
   Button,
@@ -16,17 +13,20 @@ import {
   TextInput,
 } from "react-native-paper";
 import { z } from "zod";
+import { styles } from "./login";
+import { useRouter } from "expo-router";
 
 const schema = z.object({
+  name: z.string().min(1, "Nome é obrigatório"),
   email: z.email("E-mail inválido"),
   password: z.string().min(1, "Senha é obrigatória"),
 });
 
 type FormData = z.infer<typeof schema>;
 
-const LoginScreen = () => {
-  const router = useRouter()
+const SignUpScreen = () => {
   const { showSnackbar } = useSnackbar();
+  const router = useRouter();
 
   const {
     control,
@@ -39,17 +39,23 @@ const LoginScreen = () => {
   });
 
   const onSubmit = async (payload: FormData) => {
-    const { error, data } = await supabase.auth.signInWithPassword({
+    const { error, data } = await supabase.auth.signUp({
+      options: {
+        data: {
+          name: payload.name,
+          role: "student",
+        },
+      },
       email: payload.email,
       password: payload.password,
-    });
+    }); 
 
     console.log(data);
 
     if (error) {
       console.log(error);
-
-      showSnackbar("E-mail ou Senha inválidos", "Fechar");
+      
+      showSnackbar("Algo deu errado", "Fechar");
     }
   };
 
@@ -60,17 +66,36 @@ const LoginScreen = () => {
       </Appbar.Header>
 
       <Surface elevation={0} style={styles.page}>
-        <View style={styles.thumb}>
-          
-        </View>
-        <View style={styles.container}>
+        <View style={{ ...styles.thumb, height: "40%" }}></View>
+        <View style={{ ...styles.container, height: "60%" }}>
           <Card.Title
             titleVariant="headlineLarge"
-            title="Login"
-            subtitle="Entre com seu e-mail e senha"
+            title="Cadastro"
+            subtitle="Preencha os campos para criar sua conta"
           />
 
           <View style={styles.wrapper}>
+            <Controller
+              control={control}
+              name="name"
+              render={({ field: { onChange, onBlur, value } }) => (
+                <View>
+                  <TextInput
+                    label="Nome Completo"
+                    mode="outlined"
+                    autoCapitalize="none"
+                    onBlur={onBlur}
+                    onChangeText={onChange}
+                    error={!!errors.name}
+                    value={value}
+                  />
+                  {errors.name && (
+                    <HelperText type="error">{errors.name.message}</HelperText>
+                  )}
+                </View>
+              )}
+            />
+
             <Controller
               control={control}
               name="email"
@@ -132,41 +157,4 @@ const LoginScreen = () => {
   );
 };
 
-export default LoginScreen;
-
-// --- Styles ---
-export const styles = StyleSheet.create({
-  page: {
-    flex: 1,
-    borderTopWidth: responsiveHeightPx(2),
-    borderTopColor: theme.colors.elevation.level2,
-  },
-  thumb: {
-    height: "55%",
-    overflow: "hidden",
-    backgroundColor: theme.colors.background,
-    borderBottomWidth: responsiveHeightPx(2),
-    borderBottomColor: theme.colors.elevation.level2,
-  },
-  container: {
-    flex: 1,
-    justifyContent: "space-between",
-    paddingHorizontal: responsiveHeightPx(16),
-    paddingVertical: responsiveHeightPx(15),
-    paddingBottom: responsiveHeightPx(25),
-    maxWidth: 500,
-    flexShrink: 0,
-    height: "45%",
-  },
-  wrapper: {
-    flexDirection: "column",
-    marginVertical: responsiveHeightPx(25),
-    paddingHorizontal: responsiveHeightPx(15),
-    gap: responsiveHeightPx(6),
-  },
-  button: {
-    marginTop: responsiveHeightPx(8),
-    marginBottom: responsiveHeightPx(14),
-    marginHorizontal: responsiveHeightPx(15),
-  },
-});
+export default SignUpScreen;

@@ -1,16 +1,15 @@
 import { MD3LightTheme as DefaultTheme } from "react-native-paper";
-import type { ThemeProp } from "react-native-paper/lib/typescript/types";
 
-export const theme: ThemeProp = {
+export const theme = {
   ...DefaultTheme,
   mode: "exact",
   roundness: 30,
   colors: {
-    primary: "rgb(0, 104, 116)",
+    primary: "rgba(54, 180, 128, 1)",
     onPrimary: "rgb(255, 255, 255)",
     primaryContainer: "rgb(151, 240, 255)",
     onPrimaryContainer: "rgb(0, 31, 36)",
-    secondary: "rgb(0, 107, 94)",
+    secondary: "rgba(21, 103, 93, 1)",
     onSecondary: "rgb(255, 255, 255)",
     secondaryContainer: "rgb(118, 248, 226)",
     onSecondaryContainer: "rgb(0, 32, 27)",
