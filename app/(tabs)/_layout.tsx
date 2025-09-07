@@ -4,7 +4,7 @@ import React from "react";
 import { BottomNavigation, Icon } from "react-native-paper";
 
 const icons: Record<string, any> = {
-  index: "home",
+  home: "home",
   schedule: "calendar",
   reports: "chart-bar",
   account: "account",
@@ -12,7 +12,7 @@ const icons: Record<string, any> = {
 };
 
 const titles: Record<string, string> = {
-  index: "Home",
+  home: "Home",
   classes: "Turmas",
   reports: "Relatórios",
   schedule: "Agenda",
