@@ -39,6 +39,7 @@ SplashScreen.preventAutoHideAsync();
 export default function RootLayout() {
   const router = useRouter();
 
+  const [isLogged, setIsLogged] = useState<boolean | null>(null);
   const [session, setSession] = useState<Session | null>(null);
 
   const colorScheme = useColorScheme();
@@ -73,13 +74,14 @@ export default function RootLayout() {
   const onLoadSession = async () => {
     StatusBar.setBackgroundColor(paperTheme.colors.primary);
     StatusBar.setBarStyle("dark-content");
-    await setBackgroundColorAsync(paperTheme.colors.primary);
+    await setBackgroundColorAsync(paperTheme.colors.elevation.level1);
     const {
       data: { session },
     } = await supabase.auth.getSession();
 
     SplashScreen.hide();
     setSession(session);
+    setIsLogged(!!session);
   };
 
   useEffect(() => {
@@ -87,6 +89,8 @@ export default function RootLayout() {
 
     const { data: listener } = supabase.auth.onAuthStateChange(
       (event, session) => {
+        setIsLogged(!!session);
+
         if (!session && event === "SIGNED_OUT") {
           router.replace("/start");
         }
@@ -106,11 +110,9 @@ export default function RootLayout() {
     };
   }, []);
 
-  if (!loaded) {
+  if (!loaded || isLogged === null) {
     return null;
   }
-
-  const isLoggedIn = !!session;
 
   return (
     <AuthContext.Provider value={auth}>
@@ -118,9 +120,9 @@ export default function RootLayout() {
         <SnackbarProvider>
           <Stack
             screenOptions={{ headerShown: false }}
-            initialRouteName={isLoggedIn ? "(tabs)" : "start"}
+            initialRouteName={isLogged ? "(tabs)" : "start"}
           >
-            {isLoggedIn && (
+            {isLogged && (
               <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
             )}
 

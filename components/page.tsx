@@ -1,5 +1,4 @@
 import { responsiveHeightPx } from "@/utils";
-import Constants from "expo-constants";
 
 import { PropsWithChildren, useEffect } from "react";
 import { SafeAreaView, StatusBar } from "react-native";
@@ -8,16 +7,15 @@ import { setBackgroundColorAsync } from "expo-navigation-bar";
 
 export const Page = ({ children }: PropsWithChildren) => {
   const theme = useTheme();
-  const statusBarHeight = Constants.statusBarHeight;
 
   useEffect(() => {
     StatusBar.setBackgroundColor(theme.colors.primary);
     StatusBar.setBarStyle("dark-content");
-    setBackgroundColorAsync(theme.colors.primary);
+    setBackgroundColorAsync(theme.colors.elevation.level1);
   }, []);
 
   return (
-    <SafeAreaView style={{ flex: 1, paddingTop: statusBarHeight }}>
+    <SafeAreaView style={{ flex: 1}}>
       <Surface
         elevation={1}
         style={{ flex: 1, padding: responsiveHeightPx(16) }}

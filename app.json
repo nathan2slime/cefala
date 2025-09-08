@@ -2,7 +2,7 @@
   "expo": {
     "name": "CÊFALA",
     "slug": "cefala",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "cefala",
@@ -16,7 +16,8 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "edgeToEdgeEnabled": false
+      "edgeToEdgeEnabled": false,
+      "package": "com.nathan3boss.cefala"
     },
     "web": {
       "bundler": "metro",
@@ -37,6 +38,13 @@
     ],
     "experiments": {
       "typedRoutes": true
-    }
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "445af86c-edc8-4e3f-909b-98e4d9a19092"
+      }
+    },
+    "owner": "nathan3boss"
   }
 }
