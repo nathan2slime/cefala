@@ -1,10 +1,9 @@
 import { AuthContext } from "@/components/auth-provider";
 import { Page } from "@/components/page";
 import { supabase } from "@/supabase.config";
-import { responsiveHeightPx } from "@/utils";
 import { useContext } from "react";
-import { SafeAreaView, StyleSheet } from "react-native";
-import { Button, Surface, Text } from "react-native-paper";
+import { StyleSheet } from "react-native";
+import { Button, Text } from "react-native-paper";
 
 export default function ClassesScreen() {
   const { session } = useContext(AuthContext);
