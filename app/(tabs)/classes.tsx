@@ -1,37 +1,44 @@
+import { useClassQuery } from "@/api/queries/get-class";
 import { AuthContext } from "@/components/auth-provider";
 import { Page } from "@/components/page";
+import { supabase } from "@/supabase.config";
 import { format } from "date-fns";
+import { ptBR } from "date-fns/locale";
 import { useContext } from "react";
 import { StyleSheet } from "react-native";
-import { Card, Text } from "react-native-paper";
-import { ptBR } from "date-fns/locale";
+import { Button, Card, Text } from "react-native-paper";
 
 export default function ClassesScreen() {
   const { session } = useContext(AuthContext);
 
-  const classes = [
-    {
-      id: 1,
-      title: "Turma 01",
-      createdAt: new Date(),
-    },
-  ];
+  const { data: classes } = useClassQuery();
+  console.log(classes);
+
+  if (!classes) {
+    return (
+      <Page>
+        <Text>Carregando...</Text>
+      </Page>
+    );
+  }
 
   return (
     <Page>
-      {/* <Button mode="contained" onPress={() => supabase.auth.signOut()}>
+      <Button mode="contained" onPress={() => supabase.auth.signOut()}>
         Classes Screen
-      </Button> */}
+      </Button>
       <Text variant="bodyMedium">
         Welcome, {session?.user.user_metadata.name}
       </Text>
 
       {classes.map((classItem) => (
-        <Card style={{borderRadius: 8}}>
+        <Card key={classItem.id} style={{ borderRadius: 8 }}>
           <Card.Content>
             <Text variant="titleMedium">{classItem.title}</Text>
             <Text variant="bodyMedium">
-              {format(classItem.createdAt, "EEEE, dd 'de' MMMM 'de' yyyy", { locale: ptBR })}
+              {format(classItem.createdAt, "EEEE, dd 'de' MMMM 'de' yyyy", {
+                locale: ptBR,
+              })}
             </Text>
           </Card.Content>
         </Card>

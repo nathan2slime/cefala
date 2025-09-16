@@ -29,12 +29,15 @@ import { MD3DarkTheme, MD3LightTheme, PaperProvider } from "react-native-paper";
 import { ThemeProp } from "react-native-paper/lib/typescript/types";
 import { useMaterial3Theme } from "@pchmn/expo-material3-theme";
 import { setBackgroundColorAsync } from "expo-navigation-bar";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 import "react-native-reanimated";
 
 const appTheme = theme as ThemeProp;
 
 SplashScreen.preventAutoHideAsync();
+
+const queryClient = new QueryClient();
 
 export default function RootLayout() {
   const router = useRouter();
@@ -117,21 +120,23 @@ export default function RootLayout() {
   return (
     <AuthContext.Provider value={auth}>
       <PaperProvider theme={paperTheme as ThemeProp}>
-        <SnackbarProvider>
-          <Stack
-            screenOptions={{ headerShown: false }}
-            initialRouteName={isLogged ? "(tabs)" : "start"}
-          >
-            {isLogged && (
-              <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-            )}
+        <QueryClientProvider client={queryClient}>
+          <SnackbarProvider>
+            <Stack
+              screenOptions={{ headerShown: false }}
+              initialRouteName={isLogged ? "(tabs)" : "start"}
+            >
+              {isLogged && (
+                <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+              )}
 
-            <Stack.Screen name="+not-found" />
-            <Stack.Screen name="auth/login" />
-            <Stack.Screen name="auth/signup" />
-            <Stack.Screen name="start" />
-          </Stack>
-        </SnackbarProvider>
+              <Stack.Screen name="+not-found" />
+              <Stack.Screen name="auth/login" />
+              <Stack.Screen name="auth/signup" />
+              <Stack.Screen name="start" />
+            </Stack>
+          </SnackbarProvider>
+        </QueryClientProvider>
       </PaperProvider>
     </AuthContext.Provider>
   );
