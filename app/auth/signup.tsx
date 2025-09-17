@@ -3,7 +3,7 @@ import { supabase } from "@/supabase.config";
 import { zodResolver } from "@hookform/resolvers/zod";
 import React from "react";
 import { Controller, useForm } from "react-hook-form";
-import { KeyboardAvoidingView, View,ScrollView } from "react-native";
+import { KeyboardAvoidingView, View, ScrollView } from "react-native";
 import {
   Appbar,
   Button,
@@ -19,9 +19,12 @@ import { useRouter } from "expo-router";
 import { styles } from "./login";
 
 const schema = z.object({
-  name: z.string().min(1, "Nome é obrigatório"),
+  name: z.string({ error: "Nome é obrigatório" }).min(1, "Nome é obrigatório"),
   email: z.email("E-mail inválido"),
-  password: z.string().min(1, "Senha é obrigatória").min(6, "Senha deve ter no mínimo 6 caracteres"),
+  password: z
+    .string()
+    .min(1, "Senha é obrigatória")
+    .min(6, "Senha deve ter no mínimo 6 caracteres"),
 });
 
 type FormData = z.infer<typeof schema>;

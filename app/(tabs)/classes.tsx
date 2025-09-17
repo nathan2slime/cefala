@@ -11,7 +11,7 @@ export default function ClassesScreen() {
   return (
     <Page>
       <Button mode="contained" onPress={() => supabase.auth.signOut()}>Classes Screen</Button>
-      <Text variant="bodyMedium">Welcome, {session?.user.email}</Text>
+      <Text variant="bodyMedium">Welcome, {JSON.stringify(session)}</Text>
     </Page>
   );
 }

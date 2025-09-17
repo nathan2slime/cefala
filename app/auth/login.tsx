@@ -22,7 +22,7 @@ import {
 import { z } from "zod";
 
 const schema = z.object({
-  email: z.email("E-mail inválido"),
+  email: z.email("E-mail inválido").min(1, "E-mail é obrigatório"),
   password: z.string().min(1, "Senha é obrigatória"),
 });
 
