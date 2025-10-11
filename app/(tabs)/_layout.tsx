@@ -1,5 +1,6 @@
 import { Tabs } from "expo-router";
 import React from "react";
+import { View } from "react-native";
 
 import { BottomNavigation, Icon } from "react-native-paper";
 
@@ -46,8 +47,13 @@ export default function TabLayout() {
               }
             }}
             renderIcon={({ route, color }) => (
-              <Icon source={icons[route.name]} size={24} color={color} />
+              <View style={{ alignItems: "center" }}>
+                <Icon source={icons[route.name]} size={24} color={color} />
+              </View>
             )}
+            shifting
+            labeled
+            compact
             getLabelText={({ route }) => {
               return descriptors[route.key].options.title;
             }}
@@ -60,9 +66,9 @@ export default function TabLayout() {
     >
       {Object.keys(titles)
         .filter((route) => allowedRoutes.includes(route))
-        .map((route) => (
+        .map((route, index) => (
           <Tabs.Screen
-            key={route}
+            key={route + index.toString()}
             name={route}
             options={{
               title: titles[route],
