@@ -1,5 +1,3 @@
-import { useSnackbar } from "@/providers/snackbar";
-import { supabase } from "@/supabase.config";
 import { zodResolver } from "@hookform/resolvers/zod";
 import React from "react";
 import { Controller, useForm } from "react-hook-form";
@@ -16,7 +14,8 @@ import {
 import { z } from "zod";
 import { useRouter } from "expo-router";
 
-import { styles } from "./login";
+import { styles } from "./sign-in";
+import { useSignUp } from "@/hooks/useSignup";
 
 const schema = z.object({
   name: z.string({ error: "Nome é obrigatório" }).min(1, "Nome é obrigatório"),
@@ -31,7 +30,7 @@ type FormData = z.infer<typeof schema>;
 
 const SignUpScreen = () => {
   const theme = useTheme();
-  const { showSnackbar } = useSnackbar();
+  const { isLoaded, signUp } = useSignUp();
   const router = useRouter();
 
   const {
@@ -45,24 +44,14 @@ const SignUpScreen = () => {
   });
 
   const onSubmit = async (payload: FormData) => {
-    const { error, data } = await supabase.auth.signUp({
-      options: {
-        data: {
-          name: payload.name,
-          role: "student",
-        },
-      },
+    if (!isLoaded) return;
+
+    await signUp({
+      isTeacher: false,
+      name: payload.name,
       email: payload.email,
       password: payload.password,
     });
-
-    console.log(data);
-
-    if (error) {
-      console.log(error);
-
-      showSnackbar("Algo deu errado", "Fechar");
-    }
   };
 
   return (

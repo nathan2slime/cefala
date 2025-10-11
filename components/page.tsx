@@ -1,9 +1,10 @@
 import { responsiveHeightPx } from "@/utils";
 
 import { PropsWithChildren, useEffect } from "react";
-import { SafeAreaView, StatusBar } from "react-native";
+import { StatusBar } from "react-native";
 import { Surface, useTheme } from "react-native-paper";
 import { setBackgroundColorAsync } from "expo-navigation-bar";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export const Page = ({ children }: PropsWithChildren) => {
   const theme = useTheme();
@@ -15,13 +16,8 @@ export const Page = ({ children }: PropsWithChildren) => {
   }, []);
 
   return (
-    <SafeAreaView style={{ flex: 1}}>
-      <Surface
-        elevation={1}
-        style={{ flex: 1, padding: responsiveHeightPx(16) }}
-      >
-        {children}
-      </Surface>
-    </SafeAreaView>
+    <Surface style={{ flex: 1, padding: responsiveHeightPx(16) }}>
+      <SafeAreaView style={{ flex: 1 }}>{children}</SafeAreaView>
+    </Surface>
   );
 };

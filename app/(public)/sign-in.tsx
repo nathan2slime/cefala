@@ -1,5 +1,4 @@
-import { useSnackbar } from "@/providers/snackbar";
-import { supabase } from "@/supabase.config";
+import { useSignIn } from "@/hooks/useSignIn";
 import { responsiveHeightPx } from "@/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "expo-router";
@@ -31,7 +30,7 @@ type FormData = z.infer<typeof schema>;
 const LoginScreen = () => {
   const theme = useTheme();
   const router = useRouter();
-  const { showSnackbar } = useSnackbar();
+  const { signInWithPassword, isLoaded } = useSignIn()
   const {
     control,
     handleSubmit,
@@ -43,18 +42,12 @@ const LoginScreen = () => {
   });
 
   const onSubmit = async (payload: FormData) => {
-    const { error, data } = await supabase.auth.signInWithPassword({
+    if(!isLoaded) return;
+
+    await signInWithPassword({
       email: payload.email,
       password: payload.password,
     });
-
-    console.log(data);
-
-    if (error) {
-      console.log(error);
-
-      showSnackbar("E-mail ou Senha inválidos", "Fechar");
-    }
   };
 
   return (

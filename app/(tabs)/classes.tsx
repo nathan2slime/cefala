@@ -1,17 +1,20 @@
-import { AuthContext } from "@/components/auth-provider";
 import { Page } from "@/components/page";
-import { supabase } from "@/supabase.config";
-import { useContext } from "react";
+import { useSupabase } from "@/hooks/useSupabase";
+import { router } from "expo-router";
 import { StyleSheet } from "react-native";
 import { Button, Text } from "react-native-paper";
 
 export default function ClassesScreen() {
-  const { session } = useContext(AuthContext);
+  const { session , signOut} = useSupabase();
 
   return (
     <Page>
-      <Button mode="contained" onPress={() => supabase.auth.signOut()}>Classes Screen</Button>
-      <Text variant="bodyMedium">Welcome, {JSON.stringify(session)}</Text>
+      <Button
+      onPress={() => signOut()}
+        mode="contained"
+      >
+        Classes Screen
+      </Button>
     </Page>
   );
 }
