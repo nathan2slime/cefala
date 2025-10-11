@@ -23,11 +23,11 @@ const AppIntroScreen = () => {
       <View style={styles.buttonContainer}>
         <Button
           mode="contained"
-          onPress={() => router.navigate("/auth/signup")}
+          onPress={() => router.navigate("/(public)/sign-up")}
         >
           Cadastre-se
         </Button>
-        <Button mode="outlined" onPress={() => router.navigate("/auth/login")}>
+        <Button mode="outlined" onPress={() => router.navigate("/(public)/sign-in")}>
           Entrar
         </Button>
       </View>

@@ -1,8 +1,15 @@
-import { AuthContext } from "@/components/auth-provider";
-import { SnackbarProvider } from "@/providers/snackbar";
-import { supabase } from "@/supabase.config";
+import { useEffect } from "react";
+
+import { Stack } from "expo-router";
+import * as SplashScreen from "expo-splash-screen";
+import { MD3DarkTheme, MD3LightTheme, PaperProvider } from "react-native-paper";
 import { StatusBar, useColorScheme } from "react-native";
-import { theme } from "@/themes";
+import { ThemeProp } from "react-native-paper/lib/typescript/types";
+import { useMaterial3Theme } from "@pchmn/expo-material3-theme";
+
+import { useSupabase } from "@/hooks/useSupabase";
+import { SupabaseProvider } from "@/providers/supabase";
+
 import {
   Nunito_200ExtraLight,
   Nunito_200ExtraLight_Italic,
@@ -20,31 +27,37 @@ import {
   Nunito_800ExtraBold_Italic,
   Nunito_900Black,
   Nunito_900Black_Italic,
+  useFonts,
 } from "@expo-google-fonts/nunito";
-import { Session } from "@supabase/supabase-js";
-import { useFonts } from "expo-font";
-import { SplashScreen, Stack, useRouter } from "expo-router";
-import { useState, useMemo, useEffect } from "react";
-import { MD3DarkTheme, MD3LightTheme, PaperProvider } from "react-native-paper";
-import { ThemeProp } from "react-native-paper/lib/typescript/types";
-import { useMaterial3Theme } from "@pchmn/expo-material3-theme";
+
+import { SnackbarProvider } from "@/providers/snackbar";
+import { theme } from "@/themes";
 import { setBackgroundColorAsync } from "expo-navigation-bar";
 
-import "react-native-reanimated";
-
-const appTheme = theme as ThemeProp;
+SplashScreen.setOptions({
+  duration: 500,
+  fade: true,
+});
 
 SplashScreen.preventAutoHideAsync();
 
+const appTheme = theme as ThemeProp;
+
 export default function RootLayout() {
-  const router = useRouter();
+  return (
+    <SnackbarProvider>
+      <SupabaseProvider>
+        <RootNavigator />
+      </SupabaseProvider>
+    </SnackbarProvider>
+  );
+}
 
-  const [isLogged, setIsLogged] = useState<boolean | null>(null);
-  const [session, setSession] = useState<Session | null>(null);
-
+function RootNavigator() {
+  const { isLoaded, session } = useSupabase();
   const colorScheme = useColorScheme();
-  const { theme } = useMaterial3Theme();
 
+  const { theme } = useMaterial3Theme();
   const paperTheme =
     colorScheme === "dark"
       ? { ...MD3DarkTheme, ...appTheme, colors: theme.dark }
@@ -69,70 +82,27 @@ export default function RootLayout() {
     Nunito_500Medium,
   });
 
-  const auth = useMemo(() => ({ session, setSession }), [session, setSession]);
-
-  const onLoadSession = async () => {
-    StatusBar.setBackgroundColor(paperTheme.colors.primary);
-    StatusBar.setBarStyle("dark-content");
-    await setBackgroundColorAsync(paperTheme.colors.elevation.level1);
-    const {
-      data: { session },
-    } = await supabase.auth.getSession();
-
-    SplashScreen.hide();
-    setSession(session);
-    setIsLogged(!!session);
-  };
-
   useEffect(() => {
-    onLoadSession();
-
-    const { data: listener } = supabase.auth.onAuthStateChange(
-      (event, session) => {
-        setIsLogged(!!session);
-
-        if (!session && event === "SIGNED_OUT") {
-          router.replace("/start");
-        }
-
-        if (event === "SIGNED_IN") {
-          router.replace("/(tabs)");
-        }
-
-        setSession(session);
-      }
-    );
-
-    return () => {
-      if (listener) {
-        listener.subscription.unsubscribe();
-      }
-    };
-  }, []);
-
-  if (!loaded || isLogged === null) {
-    return null;
-  }
+    if (isLoaded && loaded) {
+      SplashScreen.hide();
+    }
+  }, [isLoaded, session, loaded]);
 
   return (
-    <AuthContext.Provider value={auth}>
-      <PaperProvider theme={paperTheme as ThemeProp}>
-        <SnackbarProvider>
-          <Stack
-            screenOptions={{ headerShown: false }}
-            initialRouteName={isLogged ? "(tabs)" : "start"}
-          >
-            {isLogged && (
-              <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-            )}
+    <PaperProvider theme={appTheme}>
+      <Stack
+        screenOptions={{
+          headerShown: false,
+        }}
+      >
+        <Stack.Protected guard={!!session}>
+          <Stack.Screen name="(tabs)" />
+        </Stack.Protected>
 
-            <Stack.Screen name="+not-found" />
-            <Stack.Screen name="auth/login" />
-            <Stack.Screen name="auth/signup" />
-            <Stack.Screen name="start" />
-          </Stack>
-        </SnackbarProvider>
-      </PaperProvider>
-    </AuthContext.Provider>
+        <Stack.Protected guard={!session}>
+          <Stack.Screen name="(public)" />
+        </Stack.Protected>
+      </Stack>
+    </PaperProvider>
   );
 }

@@ -1,9 +1,14 @@
-import { useSnackbar } from "@/providers/snackbar";
-import { supabase } from "@/supabase.config";
+import { useSignIn } from "@/hooks/useSignIn";
+import { responsiveHeightPx } from "@/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
-import React from "react";
+import { useRouter } from "expo-router";
 import { Controller, useForm } from "react-hook-form";
-import { KeyboardAvoidingView, View,ScrollView } from "react-native";
+import {
+  KeyboardAvoidingView,
+  ScrollView,
+  StyleSheet,
+  View,
+} from "react-native";
 import {
   Appbar,
   Button,
@@ -14,23 +19,18 @@ import {
   useTheme,
 } from "react-native-paper";
 import { z } from "zod";
-import { useRouter } from "expo-router";
-
-import { styles } from "./login";
 
 const schema = z.object({
-  name: z.string().min(1, "Nome é obrigatório"),
-  email: z.email("E-mail inválido"),
-  password: z.string().min(1, "Senha é obrigatória").min(6, "Senha deve ter no mínimo 6 caracteres"),
+  email: z.email("E-mail inválido").min(1, "E-mail é obrigatório"),
+  password: z.string().min(1, "Senha é obrigatória"),
 });
 
 type FormData = z.infer<typeof schema>;
 
-const SignUpScreen = () => {
+const LoginScreen = () => {
   const theme = useTheme();
-  const { showSnackbar } = useSnackbar();
   const router = useRouter();
-
+  const { signInWithPassword, isLoaded } = useSignIn()
   const {
     control,
     handleSubmit,
@@ -42,24 +42,12 @@ const SignUpScreen = () => {
   });
 
   const onSubmit = async (payload: FormData) => {
-    const { error, data } = await supabase.auth.signUp({
-      options: {
-        data: {
-          name: payload.name,
-          role: "student",
-        },
-      },
+    if(!isLoaded) return;
+
+    await signInWithPassword({
       email: payload.email,
       password: payload.password,
     });
-
-    console.log(data);
-
-    if (error) {
-      console.log(error);
-
-      showSnackbar("Algo deu errado", "Fechar");
-    }
   };
 
   return (
@@ -76,39 +64,15 @@ const SignUpScreen = () => {
         </Appbar.Header>
 
         <Surface elevation={1} style={styles.page}>
-          <View style={{ ...styles.thumb, height: "40%" }}></View>
-          <View style={{ ...styles.container, height: "60%" }}>
+          <View style={styles.thumb}></View>
+          <View style={styles.container}>
             <Card.Title
               titleVariant="headlineLarge"
-              title="Cadastro"
-              subtitle="Preencha os campos para criar sua conta"
+              title="Login"
+              subtitle="Entre com seu e-mail e senha"
             />
 
             <View style={styles.wrapper}>
-              <Controller
-                control={control}
-                name="name"
-                render={({ field: { onChange, onBlur, value } }) => (
-                  <View>
-                    <TextInput
-                      label="Nome Completo"
-                      mode="outlined"
-                      autoCapitalize="none"
-                      onBlur={onBlur}
-                      maxLength={200}
-                      onChangeText={onChange}
-                      error={!!errors.name}
-                      value={value}
-                    />
-                    {errors.name && (
-                      <HelperText type="error">
-                        {errors.name.message}
-                      </HelperText>
-                    )}
-                  </View>
-                )}
-              />
-
               <Controller
                 control={control}
                 name="email"
@@ -173,4 +137,36 @@ const SignUpScreen = () => {
   );
 };
 
-export default SignUpScreen;
+export default LoginScreen;
+
+// --- Styles ---
+export const styles = StyleSheet.create({
+  page: {
+    flex: 1,
+  },
+  thumb: {
+    height: "55%",
+    overflow: "hidden",
+  },
+  container: {
+    flex: 1,
+    justifyContent: "space-between",
+    paddingHorizontal: responsiveHeightPx(16),
+    paddingVertical: responsiveHeightPx(15),
+    paddingBottom: responsiveHeightPx(25),
+    maxWidth: 500,
+    flexShrink: 0,
+    height: "45%",
+  },
+  wrapper: {
+    flexDirection: "column",
+    marginVertical: responsiveHeightPx(25),
+    paddingHorizontal: responsiveHeightPx(15),
+    gap: responsiveHeightPx(6),
+  },
+  button: {
+    marginTop: responsiveHeightPx(8),
+    marginBottom: responsiveHeightPx(14),
+    marginHorizontal: responsiveHeightPx(15),
+  },
+});
