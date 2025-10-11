@@ -19,7 +19,7 @@ export const SupabaseProvider = ({ children }: PropsWithChildren) => {
           persistSession: true,
           detectSessionInUrl: false,
           lock: processLock,
-          debug: true,
+          debug: false,
         },
         db: {
           schema: "public",

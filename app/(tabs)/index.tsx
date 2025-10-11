@@ -1,15 +1,8 @@
-import { StyleSheet, View } from "react-native";
-import { Appbar } from "react-native-paper";
+import { Page } from "@/components/page";
+import { StyleSheet } from "react-native";
 
 export default function HomeScreen() {
-
-  return (
-    <View>
-      <Appbar.Header>
-        <Appbar.Content title="Home" />
-      </Appbar.Header>
-    </View>
-  );
+  return <Page></Page>;
 }
 
 const styles = StyleSheet.create({});
