@@ -25,8 +25,6 @@ export const useSupabase = (): UseSupabaseProps => {
         setSession(data.session);
       })
       .finally(() => {
-        console.log('hello');
-        
         setIsLoaded(true);
       });
 
