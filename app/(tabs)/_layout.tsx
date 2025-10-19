@@ -1,26 +1,46 @@
+import { useSupabase } from "@/hooks/useSupabase";
+import { Session } from "@supabase/supabase-js";
 import { Tabs } from "expo-router";
 import React from "react";
+import { View } from "react-native";
 
 import { BottomNavigation, Icon } from "react-native-paper";
 
 const icons: Record<string, any> = {
-  home: "home",
+  index: "home",
   schedule: "calendar",
   reports: "chart-bar",
   account: "account",
+  service: "headset",
   classes: "school",
+  diary: "file-document-edit",
 };
 
 const titles: Record<string, string> = {
-  home: "Home",
+  index: "Home",
+  diary: "Diário",
   classes: "Turmas",
+  service: "Atendimento",
   reports: "Relatórios",
   schedule: "Agenda",
   account: "Conta",
 };
 
+const getAllowedRoutes = (session: Session | null | undefined) => {
+  if (session) {
+    const user = session.user.user_metadata;
+
+    return user.role === "student"
+      ? ["index", "diary", "service", "account"]
+      : ["schedule", "reports", "account", "classes"];
+  }
+
+  return [];
+};
+
 export default function TabLayout() {
-  const allowedRoutes = ["schedule", "reports", "account", "classes"];
+  const { session } = useSupabase();
+  const allowedRoutes = getAllowedRoutes(session);
 
   return (
     <Tabs
@@ -46,8 +66,13 @@ export default function TabLayout() {
               }
             }}
             renderIcon={({ route, color }) => (
-              <Icon source={icons[route.name]} size={24} color={color} />
+              <View style={{ alignItems: "center" }}>
+                <Icon source={icons[route.name]} size={24} color={color} />
+              </View>
             )}
+            shifting
+            labeled
+            compact
             getLabelText={({ route }) => {
               return descriptors[route.key].options.title;
             }}
@@ -60,9 +85,9 @@ export default function TabLayout() {
     >
       {Object.keys(titles)
         .filter((route) => allowedRoutes.includes(route))
-        .map((route) => (
+        .map((route, index) => (
           <Tabs.Screen
-            key={route}
+            key={route + index.toString()}
             name={route}
             options={{
               title: titles[route],
