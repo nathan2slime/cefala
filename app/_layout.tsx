@@ -97,6 +97,7 @@ function RootNavigator() {
       >
         <Stack.Protected guard={!!session}>
           <Stack.Screen name="(tabs)" />
+          <Stack.Screen name="create-post"  options={{ presentation: "modal" }} />
         </Stack.Protected>
 
         <Stack.Protected guard={!session}>

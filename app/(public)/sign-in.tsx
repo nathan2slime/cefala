@@ -1,4 +1,5 @@
 import { useSignIn } from "@/hooks/useSignIn";
+import { useSnackbar } from "@/providers/snackbar";
 import { responsiveHeightPx } from "@/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "expo-router";
@@ -30,6 +31,7 @@ type FormData = z.infer<typeof schema>;
 const LoginScreen = () => {
   const theme = useTheme();
   const router = useRouter();
+  const { showSnackbar } = useSnackbar();
   const { signInWithPassword, isLoaded } = useSignIn()
   const {
     control,
@@ -44,10 +46,14 @@ const LoginScreen = () => {
   const onSubmit = async (payload: FormData) => {
     if(!isLoaded) return;
 
-    await signInWithPassword({
+    try {
+      await signInWithPassword({
       email: payload.email,
       password: payload.password,
     });
+    } catch {
+      showSnackbar("Credenciais inválidas. Tente novamente.");
+    }
   };
 
   return (

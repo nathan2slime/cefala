@@ -15,7 +15,6 @@ import { responsiveHeightPx } from "@/utils";
 
 export default function ClassesScreen() {
   const { data, refreshing, onRefresh } = useClass();
-  console.log(data);
   const theme = useTheme();
 
   return (

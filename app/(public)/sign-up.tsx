@@ -16,6 +16,7 @@ import { useRouter } from "expo-router";
 
 import { styles } from "./sign-in";
 import { useSignUp } from "@/hooks/useSignup";
+import { useSnackbar } from "@/providers/snackbar";
 
 const schema = z.object({
   name: z.string({ error: "Nome é obrigatório" }).min(1, "Nome é obrigatório"),
@@ -32,6 +33,7 @@ const SignUpScreen = () => {
   const theme = useTheme();
   const { isLoaded, signUp } = useSignUp();
   const router = useRouter();
+  const { showSnackbar } = useSnackbar();
 
   const {
     control,
@@ -46,12 +48,16 @@ const SignUpScreen = () => {
   const onSubmit = async (payload: FormData) => {
     if (!isLoaded) return;
 
-    await signUp({
-      isTeacher: false,
-      name: payload.name,
-      email: payload.email,
-      password: payload.password,
-    });
+    try {
+      await signUp({
+        isTeacher: false,
+        name: payload.name,
+        email: payload.email,
+        password: payload.password,
+      });
+    } catch {
+      showSnackbar("Não foi possível criar a conta. Tente novamente.");
+    }
   };
 
   return (
