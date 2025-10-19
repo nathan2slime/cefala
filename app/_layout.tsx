@@ -1,11 +1,11 @@
 import { useEffect } from "react";
 
+import { useMaterial3Theme } from "@pchmn/expo-material3-theme";
 import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
+import { useColorScheme } from "react-native";
 import { MD3DarkTheme, MD3LightTheme, PaperProvider } from "react-native-paper";
-import { StatusBar, useColorScheme } from "react-native";
 import { ThemeProp } from "react-native-paper/lib/typescript/types";
-import { useMaterial3Theme } from "@pchmn/expo-material3-theme";
 
 import { useSupabase } from "@/hooks/useSupabase";
 import { SupabaseProvider } from "@/providers/supabase";
@@ -32,7 +32,6 @@ import {
 
 import { SnackbarProvider } from "@/providers/snackbar";
 import { theme } from "@/themes";
-import { setBackgroundColorAsync } from "expo-navigation-bar";
 
 SplashScreen.setOptions({
   duration: 500,
