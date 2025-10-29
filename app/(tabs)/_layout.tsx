@@ -71,8 +71,6 @@ export default function TabLayout() {
               </View>
             )}
             shifting
-            labeled
-            compact
             getLabelText={({ route }) => {
               return descriptors[route.key].options.title;
             }}

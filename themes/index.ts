@@ -1,73 +1,51 @@
-import { DefaultTheme } from "react-native-paper";
-
-export const theme = {
-  roundness: 20,
-  fonts: {
-    ...DefaultTheme.fonts,
-    titleMedium: {
-      ...DefaultTheme.fonts.titleMedium,
-      fontFamily: "Nunito_600SemiBold",
-      fontWeight: "600",
+const light = {
+  primary: {
+    100: '#f97f57ff', // rosa alegre
+    200: '#f97f57ff', // rosa suave
+    300: '#fff5ddff', // rosa bebê
+    500: '#ffffffff', 
+    600: '#A0C4FF', // azul pastel
+  },
+  background: {
+    100: '#FFF8F3', // fundo creme
+    200: '#FFEEDD', // tom quente e acolhedor
+    300: '#FFF5E1', // leve amarelo pastel
+  },
+  white: '#FFFFFF',
+  alerts: {
+    danger: {
+      100: '#FF6B6B', // vermelho vibrante
+      200: '#FFD6D6', // versão clara
     },
-    bodyLarge: {
-      ...DefaultTheme.fonts.bodyLarge,
-      fontFamily: "Nunito_400Regular",
-      fontWeight: "400",
+    warning: {
+      100: '#FFD166', // amarelo ensolarado
     },
-    bodyMedium: {
-      ...DefaultTheme.fonts.bodyMedium,
-      fontFamily: "Nunito_400Regular",
-      fontWeight: "400",
+    success: {
+      100: '#06D6A0', // verde menta
     },
-    bodySmall: {
-      ...DefaultTheme.fonts.bodySmall,
-      fontFamily: "Nunito_300Light",
-      fontWeight: "300",
-    },
-    labelLarge: {
-      ...DefaultTheme.fonts.labelLarge,
-      fontFamily: "Nunito_600SemiBold",
-      fontWeight: "600",
-    },
-    labelMedium: {
-      ...DefaultTheme.fonts.labelMedium,
-      fontFamily: "Nunito_600SemiBold",
-      fontWeight: "600",
-    },
-    labelSmall: {
-      ...DefaultTheme.fonts.labelSmall,
-      fontFamily: "Nunito_600SemiBold",
-      fontWeight: "600",
-    },
-    displayLarge: {
-      ...DefaultTheme.fonts.displayLarge,
-      fontFamily: "Nunito_700Bold",
-      fontWeight: "700",
-    },
-    displayMedium: {
-      ...DefaultTheme.fonts.displayMedium,
-      fontFamily: "Nunito_700Bold",
-      fontWeight: "700",
-    },
-    displaySmall: {
-      ...DefaultTheme.fonts.displaySmall,
-      fontFamily: "Nunito_800ExtraBold",
-      fontWeight: "800",
-    },
-    headlineLarge: {
-      ...DefaultTheme.fonts.headlineLarge,
-      fontFamily: "Nunito_700Bold",
-      fontWeight: "700",
-    },
-    headlineMedium: {
-      ...DefaultTheme.fonts.headlineMedium,
-      fontFamily: "Nunito_700Bold",
-      fontWeight: "700",
-    },
-    headlineSmall: {
-      ...DefaultTheme.fonts.headlineSmall,
-      fontFamily: "Nunito_600SemiBold",
-      fontWeight: "600",
+    default: {
+      100: '#4CC9F0', // azul céu
     },
   },
+  text: {
+    100: '#2E294E', // roxo escuro — bom contraste
+    200: '#8b3e2bff', // violeta mais claro
+    300: '#8D86C9', // texto secundário
+  },
+  border: {
+    100: '#FFD6A5', // bordas suaves em laranja pastel
+    200: '#FFB5A7', // tom mais quente
+  },
+  fontFamily: {
+    bold: 'Fredoka_700Bold',
+    medium: 'Fredoka_500Medium',
+    semiBold: 'Fredoka_600SemiBold',
+    regular: 'Fredoka_400Regular',
+    extraBold: 'Fredoka_700Bold',
+    light: 'Fredoka_300Light',
+  },
+};
+
+export const themes = {
+  light,
 };

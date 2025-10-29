@@ -2,37 +2,29 @@ import { useEffect } from "react";
 
 import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
-import { MD3DarkTheme, MD3LightTheme, PaperProvider } from "react-native-paper";
-import { StatusBar, useColorScheme } from "react-native";
-import { ThemeProp } from "react-native-paper/lib/typescript/types";
-import { useMaterial3Theme } from "@pchmn/expo-material3-theme";
+import { MD3LightTheme, PaperProvider } from "react-native-paper";
 
 import { useSupabase } from "@/hooks/useSupabase";
 import { SupabaseProvider } from "@/providers/supabase";
 
 import {
-  Nunito_200ExtraLight,
-  Nunito_200ExtraLight_Italic,
-  Nunito_300Light,
-  Nunito_300Light_Italic,
-  Nunito_400Regular,
-  Nunito_400Regular_Italic,
-  Nunito_500Medium,
-  Nunito_500Medium_Italic,
-  Nunito_600SemiBold,
-  Nunito_600SemiBold_Italic,
-  Nunito_700Bold,
-  Nunito_700Bold_Italic,
-  Nunito_800ExtraBold,
-  Nunito_800ExtraBold_Italic,
-  Nunito_900Black,
-  Nunito_900Black_Italic,
+  FontSource,
+  Fredoka_300Light,
+  Fredoka_400Regular,
+  Fredoka_500Medium,
+  Fredoka_600SemiBold,
+  Fredoka_700Bold,
   useFonts,
-} from "@expo-google-fonts/nunito";
+} from "@expo-google-fonts/fredoka";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 import { SnackbarProvider } from "@/providers/snackbar";
-import { theme } from "@/themes";
-import { setBackgroundColorAsync } from "expo-navigation-bar";
+import { ThemeProvider } from "styled-components";
+import { themes } from "@/themes";
+import { Toast } from "@/components/toast";
+import { SafeAreaProvider } from "react-native-safe-area-context";
+import "react-native-reanimated";
+import "react-native-gesture-handler";
 
 SplashScreen.setOptions({
   duration: 500,
@@ -40,8 +32,6 @@ SplashScreen.setOptions({
 });
 
 SplashScreen.preventAutoHideAsync();
-
-const appTheme = theme as ThemeProp;
 
 export default function RootLayout() {
   return (
@@ -55,31 +45,13 @@ export default function RootLayout() {
 
 function RootNavigator() {
   const { isLoaded, session } = useSupabase();
-  const colorScheme = useColorScheme();
-
-  const { theme } = useMaterial3Theme();
-  const paperTheme =
-    colorScheme === "dark"
-      ? { ...MD3DarkTheme, ...appTheme, colors: theme.dark }
-      : { ...MD3LightTheme, ...appTheme, colors: theme.light };
 
   const [loaded] = useFonts({
-    Nunito_200ExtraLight,
-    Nunito_200ExtraLight_Italic,
-    Nunito_300Light,
-    Nunito_300Light_Italic,
-    Nunito_400Regular,
-    Nunito_400Regular_Italic,
-    Nunito_600SemiBold,
-    Nunito_600SemiBold_Italic,
-    Nunito_700Bold,
-    Nunito_700Bold_Italic,
-    Nunito_800ExtraBold,
-    Nunito_800ExtraBold_Italic,
-    Nunito_900Black,
-    Nunito_900Black_Italic,
-    Nunito_500Medium_Italic,
-    Nunito_500Medium,
+    Fredoka_300Light,
+    Fredoka_400Regular,
+    Fredoka_500Medium,
+    Fredoka_600SemiBold,
+    Fredoka_700Bold,
   });
 
   useEffect(() => {
@@ -89,21 +61,30 @@ function RootNavigator() {
   }, [isLoaded, session, loaded]);
 
   return (
-    <PaperProvider theme={appTheme}>
-      <Stack
-        screenOptions={{
-          headerShown: false,
-        }}
-      >
-        <Stack.Protected guard={!!session}>
-          <Stack.Screen name="(tabs)" />
-          <Stack.Screen name="create-post"  options={{ presentation: "modal" }} />
-        </Stack.Protected>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <ThemeProvider theme={themes.light}>
+        <PaperProvider theme={MD3LightTheme}>
+          <Stack
+            screenOptions={{
+              headerShown: false,
+            }}
+          >
+            <Stack.Protected guard={!!session}>
+              <Stack.Screen name="(tabs)" />
+              <Stack.Screen
+                name="create-post"
+                options={{ presentation: "modal" }}
+              />
+            </Stack.Protected>
 
-        <Stack.Protected guard={!session}>
-          <Stack.Screen name="(public)" />
-        </Stack.Protected>
-      </Stack>
-    </PaperProvider>
+            <Stack.Protected guard={!session}>
+              <Stack.Screen name="(public)" />
+            </Stack.Protected>
+          </Stack>
+        </PaperProvider>
+
+        <Toast />
+      </ThemeProvider>
+    </GestureHandlerRootView>
   );
 }
