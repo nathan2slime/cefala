@@ -6,6 +6,7 @@ import {
   ScrollView,
   ActivityIndicator,
   KeyboardAvoidingView,
+  TouchableOpacity,
 } from "react-native";
 import { z } from "zod";
 import { useRouter } from "expo-router";
@@ -13,12 +14,19 @@ import { useRouter } from "expo-router";
 import { useSignUp } from "@/hooks/useSignup";
 import { useSnackbar } from "@/providers/snackbar";
 import { Page } from "@/components/page";
-import { FormStyled, Wrapper } from "./sign-in";
+import {
+  FooterStyled,
+  FormStyled,
+  LinkStyled,
+  TypoGraphyStyled,
+  Wrapper,
+} from "./sign-in";
 import { TextField } from "@/components/input";
 import { Button } from "@/components/button";
 import { TypoGraphy } from "@/components/typography";
 import { themes } from "@/themes";
 import { Space } from "@/components/space";
+import { Divider } from "@/components/divider";
 
 const schema = z.object({
   name: z.string({ error: "Nome é obrigatório" }).min(1, "Nome é obrigatório"),
@@ -71,7 +79,7 @@ const SignUpScreen = () => {
         keyboardShouldPersistTaps="handled"
       >
         <Wrapper>
-          <FormStyled>
+          <FormStyled style={{ maxHeight: "80%" }}>
             <View>
               <TypoGraphy.h1>Cadastro</TypoGraphy.h1>
 
@@ -79,6 +87,9 @@ const SignUpScreen = () => {
                 Preencha os campos abaixo
               </TypoGraphy.subtitle>
             </View>
+
+            <Space y={25} />
+
             <View>
               <Controller
                 control={control}
@@ -135,19 +146,35 @@ const SignUpScreen = () => {
               />
             </View>
 
-            <Button
-              onPress={handleSubmit(onSubmit)}
-              disabled={isSubmitting || !isValid}
-            >
-              {isSubmitting ? (
-                <ActivityIndicator
-                  size="large"
-                  color={themes.light.primary[100]}
-                />
-              ) : (
-                <TypoGraphy.button>ENTRAR</TypoGraphy.button>
-              )}
-            </Button>
+            <View>
+              <Button
+                onPress={handleSubmit(onSubmit)}
+                disabled={isSubmitting || !isValid}
+              >
+                {isSubmitting ? (
+                  <ActivityIndicator
+                    size="large"
+                    color={themes.light.primary[100]}
+                  />
+                ) : (
+                  <TypoGraphy.button>ENTRAR</TypoGraphy.button>
+                )}
+              </Button>
+
+              <Space y={15} />
+
+              <Divider />
+
+              <FooterStyled>
+                <TypoGraphyStyled>Não tem uma conta?&nbsp;</TypoGraphyStyled>
+
+                <TouchableOpacity
+                  onPress={() => router.navigate("/(public)/sign-up")}
+                >
+                  <LinkStyled>Crie uma</LinkStyled>
+                </TouchableOpacity>
+              </FooterStyled>
+            </View>
           </FormStyled>
         </Wrapper>
       </ScrollView>
