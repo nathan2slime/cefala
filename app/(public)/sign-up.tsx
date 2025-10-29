@@ -1,18 +1,24 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import React from "react";
 import { Controller, useForm } from "react-hook-form";
-import { View, ScrollView, ActivityIndicator } from "react-native";
+import {
+  View,
+  ScrollView,
+  ActivityIndicator,
+  KeyboardAvoidingView,
+} from "react-native";
 import { z } from "zod";
 import { useRouter } from "expo-router";
 
 import { useSignUp } from "@/hooks/useSignup";
 import { useSnackbar } from "@/providers/snackbar";
 import { Page } from "@/components/page";
-import { FormStyled } from "./sign-in";
+import { FormStyled, Wrapper } from "./sign-in";
 import { TextField } from "@/components/input";
 import { Button } from "@/components/button";
 import { TypoGraphy } from "@/components/typography";
 import { themes } from "@/themes";
+import { Space } from "@/components/space";
 
 const schema = z.object({
   name: z.string({ error: "Nome é obrigatório" }).min(1, "Nome é obrigatório"),
@@ -56,82 +62,96 @@ const SignUpScreen = () => {
   };
 
   return (
-    <Page>
-      <FormStyled>
-        <View>
-          <View>
-            <TypoGraphy.h1>Login</TypoGraphy.h1>
+    <KeyboardAvoidingView
+      style={{ flex: 1, backgroundColor: themes.light.background[100] }}
+      behavior="position"
+    >
+      <ScrollView
+        contentContainerStyle={{ flexGrow: 1 }}
+        keyboardShouldPersistTaps="handled"
+      >
+        <Wrapper>
+          <FormStyled>
+            <View>
+              <TypoGraphy.h1>Cadastro</TypoGraphy.h1>
 
-            <TypoGraphy.subtitle>Preencha os campos abaixo</TypoGraphy.subtitle>
-          </View>
-          <View>
-            <Controller
-              control={control}
-              name="name"
-              render={({ field: { onChange, onBlur, value } }) => (
-                <TextField
-                  label="Nome Completo"
-                  autoCapitalize="none"
-                  onBlur={onBlur}
-                  maxLength={200}
-                  onChangeText={onChange}
-                  message={errors.name?.message}
-                  invalid={!!errors.name}
-                  value={value}
-                />
-              )}
-            />
-
-            <Controller
-              control={control}
-              name="email"
-              render={({ field: { onChange, onBlur, value } }) => (
-                <TextField
-                  label="E-mail"
-                  autoCapitalize="none"
-                  keyboardType="email-address"
-                  onBlur={onBlur}
-                  onChangeText={onChange}
-                  invalid={!!errors.email}
-                  message={errors.email?.message}
-                  value={value}
-                />
-              )}
-            />
-
-            <Controller
-              control={control}
-              name="password"
-              render={({ field: { onChange, onBlur, value } }) => (
-                <TextField
-                  label="Senha"
-                  secureTextEntry
-                  onBlur={onBlur}
-                  onChangeText={onChange}
-                  message={errors.password?.message}
-                  invalid={!!errors.password}
-                  value={value}
-                />
-              )}
-            />
-          </View>
-
-          <Button
-            onPress={handleSubmit(onSubmit)}
-            disabled={isSubmitting || !isValid}
-          >
-            {isSubmitting ? (
-              <ActivityIndicator
-                size="large"
-                color={themes.light.primary[100]}
+              <TypoGraphy.subtitle>
+                Preencha os campos abaixo
+              </TypoGraphy.subtitle>
+            </View>
+            <View>
+              <Controller
+                control={control}
+                name="name"
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <TextField
+                    label="Nome Completo"
+                    autoCapitalize="none"
+                    onBlur={onBlur}
+                    maxLength={200}
+                    onChangeText={onChange}
+                    message={errors.name?.message}
+                    invalid={!!errors.name}
+                    value={value}
+                  />
+                )}
               />
-            ) : (
-              <TypoGraphy.button>ENTRAR</TypoGraphy.button>
-            )}
-          </Button>
-        </View>
-      </FormStyled>
-    </Page>
+
+              <Space y={15} />
+
+              <Controller
+                control={control}
+                name="email"
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <TextField
+                    label="E-mail"
+                    autoCapitalize="none"
+                    keyboardType="email-address"
+                    onBlur={onBlur}
+                    onChangeText={onChange}
+                    invalid={!!errors.email}
+                    message={errors.email?.message}
+                    value={value}
+                  />
+                )}
+              />
+
+              <Space y={15} />
+
+              <Controller
+                control={control}
+                name="password"
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <TextField
+                    label="Senha"
+                    secureTextEntry
+                    onBlur={onBlur}
+                    onChangeText={onChange}
+                    message={errors.password?.message}
+                    invalid={!!errors.password}
+                    value={value}
+                  />
+                )}
+              />
+            </View>
+
+            <Button
+              onPress={handleSubmit(onSubmit)}
+              disabled={isSubmitting || !isValid}
+            >
+              {isSubmitting ? (
+                <ActivityIndicator
+                  size="large"
+                  color={themes.light.primary[100]}
+                />
+              ) : (
+                <TypoGraphy.button>ENTRAR</TypoGraphy.button>
+              )}
+            </Button>
+          </FormStyled>
+        </Wrapper>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 };
 

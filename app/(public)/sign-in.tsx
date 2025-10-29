@@ -1,19 +1,25 @@
+import { useRouter } from "expo-router";
+import { Controller, useForm } from "react-hook-form";
+import {
+  ActivityIndicator,
+  KeyboardAvoidingView,
+  ScrollView,
+  TouchableOpacity,
+  View,
+} from "react-native";
+import styled from "styled-components/native";
+import { z } from "zod";
+import { NavigationProp } from "@react-navigation/native";
+
 import { Button } from "@/components/button";
 import { TextField } from "@/components/input";
 import { TypoGraphy } from "@/components/typography";
 import { useSignIn } from "@/hooks/useSignIn";
 import { themes } from "@/themes";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter } from "expo-router";
-import { Controller, useForm } from "react-hook-form";
-import { ActivityIndicator, TouchableOpacity, View } from "react-native";
-import styled from "styled-components/native";
-import { z } from "zod";
-import { NavigationProp } from "@react-navigation/native";
 import { height, yScale } from "@/utils/design";
 import { Space } from "@/components/space";
 import { toast } from "@/components/toast";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { Divider } from "@/components/divider";
 
 const schema = z.object({
@@ -55,88 +61,94 @@ const LoginScreen = () => {
   };
 
   return (
-    <KeyboardAwareScrollView
-      style={{ backgroundColor: themes.light.background[100] }}
+    <KeyboardAvoidingView
+      style={{ flex: 1, backgroundColor: themes.light.background[100] }}
+      behavior="position"
     >
-      <Wrapper>
-        <FormStyled>
-          <View>
-            <TypoGraphy.h1>Bem-vindo!</TypoGraphy.h1>
+      <ScrollView
+        contentContainerStyle={{ flexGrow: 1 }}
+        keyboardShouldPersistTaps="handled"
+      >
+        <Wrapper>
+          <FormStyled>
+            <View>
+              <TypoGraphy.h1>Bem-vindo!</TypoGraphy.h1>
 
-            <TypoGraphy.subtitle>
-              Entre com seu e-mail e senha
-            </TypoGraphy.subtitle>
-          </View>
+              <TypoGraphy.subtitle>
+                Entre com seu e-mail e senha
+              </TypoGraphy.subtitle>
+            </View>
 
-          <View>
-            <Controller
-              control={control}
-              name="email"
-              render={({ field: { onChange, onBlur, value } }) => (
-                <TextField
-                  label="E-mail"
-                  autoCapitalize="none"
-                  keyboardType="email-address"
-                  onBlur={onBlur}
-                  onChangeText={onChange}
-                  invalid={!!errors.email}
-                  message={errors.email?.message}
-                  value={value}
-                />
-              )}
-            />
+            <View>
+              <Controller
+                control={control}
+                name="email"
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <TextField
+                    label="E-mail"
+                    autoCapitalize="none"
+                    keyboardType="email-address"
+                    onBlur={onBlur}
+                    onChangeText={onChange}
+                    invalid={!!errors.email}
+                    message={errors.email?.message}
+                    value={value}
+                  />
+                )}
+              />
 
-            <Space y={15} />
+              <Space y={15} />
 
-            <Controller
-              control={control}
-              name="password"
-              render={({ field: { onChange, onBlur, value } }) => (
-                <TextField
-                  label="Senha"
-                  secureTextEntry
-                  onBlur={onBlur}
-                  onChangeText={onChange}
-                  invalid={!!errors.password}
-                  message={errors.password?.message}
-                  value={value}
-                />
-              )}
-            />
-          </View>
+              <Controller
+                control={control}
+                name="password"
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <TextField
+                    label="Senha"
+                    secureTextEntry
+                    onBlur={onBlur}
+                    onChangeText={onChange}
+                    invalid={!!errors.password}
+                    message={errors.password?.message}
+                    value={value}
+                  />
+                )}
+              />
+            </View>
 
-          <View>
-            <Button
-              onPress={handleSubmit(onSubmit)}
-              disabled={isSubmitting || !isValid}
-            >
-              {isSubmitting ? (
-                <ActivityIndicator
-                  size="large"
-                  color={themes.light.primary[100]}
-                />
-              ) : (
-                <TypoGraphy.button>Entrar</TypoGraphy.button>
-              )}
-            </Button>
-
-            <Space y={15} />
-            
-            <Divider />
-
-            <FooterStyled>
-              <TypoGraphyStyled>Não tem uma conta?&nbsp;</TypoGraphyStyled>
-
-              <TouchableOpacity
-                onPress={() => router.navigate("/(public)/sign-up")}
+            <View>
+              <Button
+                onPress={handleSubmit(onSubmit)}
+                disabled={isSubmitting || !isValid}
               >
-                <LinkStyled>Crie uma</LinkStyled>
-              </TouchableOpacity>
-            </FooterStyled>
-          </View>
-        </FormStyled>
-      </Wrapper>
-    </KeyboardAwareScrollView>
+                {isSubmitting ? (
+                  <ActivityIndicator
+                    size="large"
+                    color={themes.light.primary[100]}
+                  />
+                ) : (
+                  <TypoGraphy.button>Entrar</TypoGraphy.button>
+                )}
+              </Button>
+
+              <Space y={15} />
+
+              <Divider />
+
+              <FooterStyled>
+                <TypoGraphyStyled>Não tem uma conta?&nbsp;</TypoGraphyStyled>
+
+                <TouchableOpacity
+                  onPress={() => router.navigate("/(public)/sign-up")}
+                >
+                  <LinkStyled>Crie uma</LinkStyled>
+                </TouchableOpacity>
+              </FooterStyled>
+            </View>
+          </FormStyled>
+        </Wrapper>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 };
 
