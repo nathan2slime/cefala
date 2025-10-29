@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 
+import { useMaterial3Theme } from "@pchmn/expo-material3-theme";
 import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { MD3LightTheme, PaperProvider } from "react-native-paper";

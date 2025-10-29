@@ -9,6 +9,7 @@ type UseSupabaseProps = {
   session: Session | null | undefined;
   supabase: SupabaseClient;
   signOut: () => Promise<void>;
+  updateUserName: (newName: string) => Promise<void>
 };
 
 export const useSupabase = (): UseSupabaseProps => {
@@ -49,5 +50,12 @@ export const useSupabase = (): UseSupabaseProps => {
     throw new Error("useSupabase must be used within a SupabaseProvider");
   }
 
-  return { isLoaded, session, supabase, signOut };
+  const updateUserName = async (newName: string) => {
+    if (!supabase) return
+    const { error } = await supabase.auth.updateUser({
+      data: { name: newName },
+    });
+  }
+
+  return { isLoaded, session, supabase, signOut, updateUserName };
 };
