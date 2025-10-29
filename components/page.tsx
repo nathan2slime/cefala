@@ -1,10 +1,12 @@
-import { responsiveHeightPx } from "@/utils";
-
 import { PropsWithChildren, useEffect } from "react";
-import { StatusBar } from "react-native";
-import { Appbar, Surface, useTheme } from "react-native-paper";
+import { StatusBar, View } from "react-native";
+import { Appbar, Surface } from "react-native-paper";
 import { setBackgroundColorAsync } from "expo-navigation-bar";
 import { SafeAreaView } from "react-native-safe-area-context";
+
+import { responsiveHeightPx } from "@/utils";
+
+import { themes } from "@/themes";
 
 type Props = PropsWithChildren<
   Partial<{
@@ -14,12 +16,10 @@ type Props = PropsWithChildren<
 >;
 
 export const Page = ({ children, title, onClose }: Props) => {
-  const theme = useTheme();
-
   useEffect(() => {
-    StatusBar.setBackgroundColor(theme.colors.primary);
+    StatusBar.setBackgroundColor(themes.light.primary[100]);
     StatusBar.setBarStyle("dark-content");
-    setBackgroundColorAsync(theme.colors.elevation.level1);
+    setBackgroundColorAsync(themes.light.background[100]);
   }, []);
 
   return (
@@ -30,9 +30,9 @@ export const Page = ({ children, title, onClose }: Props) => {
           {onClose && <Appbar.Action icon="close" onPress={onClose} />}
         </Appbar.Header>
       )}
-      <Surface style={{ flex: 1, padding: responsiveHeightPx(16) }}>
+      <View style={{ flex: 1, padding: responsiveHeightPx(16) }}>
         <SafeAreaView style={{ flex: 1 }}>{children}</SafeAreaView>
-      </Surface>
+      </View>
     </>
   );
 };

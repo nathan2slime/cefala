@@ -1,38 +1,39 @@
-import { useSignIn } from "@/hooks/useSignIn";
-import { useSnackbar } from "@/providers/snackbar";
-import { responsiveHeightPx } from "@/utils";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "expo-router";
 import { Controller, useForm } from "react-hook-form";
 import {
+  ActivityIndicator,
   KeyboardAvoidingView,
   ScrollView,
-  StyleSheet,
+  TouchableOpacity,
   View,
 } from "react-native";
-import {
-  Appbar,
-  Button,
-  Card,
-  HelperText,
-  Surface,
-  TextInput,
-  useTheme,
-} from "react-native-paper";
+import styled from "styled-components/native";
 import { z } from "zod";
+import { NavigationProp } from "@react-navigation/native";
+
+import { Button } from "@/components/button";
+import { TextField } from "@/components/input";
+import { TypoGraphy } from "@/components/typography";
+import { useSignIn } from "@/hooks/useSignIn";
+import { themes } from "@/themes";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { height, yScale } from "@/utils/design";
+import { Space } from "@/components/space";
+import { toast } from "@/components/toast";
+import { Divider } from "@/components/divider";
 
 const schema = z.object({
-  email: z.email("E-mail inválido").min(1, "E-mail é obrigatório"),
-  password: z.string().min(1, "Senha é obrigatória"),
+  email: z
+    .email("Hmm... esse e-mail parece meio esquisito")
+    .min(1, "Ei! Esqueceu de colocar seu e-mail"),
+  password: z.string().min(1, "Ops! Coloca sua senha aí"),
 });
 
 type FormData = z.infer<typeof schema>;
 
 const LoginScreen = () => {
-  const theme = useTheme();
   const router = useRouter();
-  const { showSnackbar } = useSnackbar();
-  const { signInWithPassword, isLoaded } = useSignIn()
+  const { signInWithPassword, isLoaded } = useSignIn();
   const {
     control,
     handleSubmit,
@@ -44,100 +45,108 @@ const LoginScreen = () => {
   });
 
   const onSubmit = async (payload: FormData) => {
-    if(!isLoaded) return;
+    if (!isLoaded) return;
 
     try {
       await signInWithPassword({
-      email: payload.email,
-      password: payload.password,
-    });
+        email: payload.email,
+        password: payload.password,
+      });
     } catch {
-      showSnackbar("Credenciais inválidas. Tente novamente.");
+      toast.open({
+        message: "Credenciais inválidas",
+        color: "danger",
+      });
     }
   };
 
   return (
     <KeyboardAvoidingView
-      style={{ flex: 1, backgroundColor: theme.colors.elevation.level1 }}
-      behavior="padding"
+      style={{ flex: 1, backgroundColor: themes.light.background[100] }}
+      behavior="position"
     >
       <ScrollView
         contentContainerStyle={{ flexGrow: 1 }}
         keyboardShouldPersistTaps="handled"
       >
-        <Appbar.Header>
-          <Appbar.BackAction onPress={() => router.back()} />
-        </Appbar.Header>
+        <Wrapper>
+          <FormStyled>
+            <View>
+              <TypoGraphy.h1>Bem-vindo!</TypoGraphy.h1>
 
-        <Surface elevation={1} style={styles.page}>
-          <View style={styles.thumb}></View>
-          <View style={styles.container}>
-            <Card.Title
-              titleVariant="headlineLarge"
-              title="Login"
-              subtitle="Entre com seu e-mail e senha"
-            />
+              <TypoGraphy.subtitle>
+                Entre com seu e-mail e senha
+              </TypoGraphy.subtitle>
+            </View>
 
-            <View style={styles.wrapper}>
+            <View>
               <Controller
                 control={control}
                 name="email"
                 render={({ field: { onChange, onBlur, value } }) => (
-                  <View>
-                    <TextInput
-                      label="E-mail"
-                      mode="outlined"
-                      autoCapitalize="none"
-                      keyboardType="email-address"
-                      onBlur={onBlur}
-                      onChangeText={onChange}
-                      error={!!errors.email}
-                      value={value}
-                    />
-                    {errors.email && (
-                      <HelperText type="error">
-                        {errors.email.message}
-                      </HelperText>
-                    )}
-                  </View>
+                  <TextField
+                    label="E-mail"
+                    autoCapitalize="none"
+                    keyboardType="email-address"
+                    onBlur={onBlur}
+                    onChangeText={onChange}
+                    invalid={!!errors.email}
+                    message={errors.email?.message}
+                    value={value}
+                  />
                 )}
               />
+
+              <Space y={15} />
 
               <Controller
                 control={control}
                 name="password"
                 render={({ field: { onChange, onBlur, value } }) => (
-                  <View>
-                    <TextInput
-                      label="Senha"
-                      mode="outlined"
-                      secureTextEntry
-                      onBlur={onBlur}
-                      onChangeText={onChange}
-                      error={!!errors.password}
-                      value={value}
-                    />
-                    {errors.password && (
-                      <HelperText type="error">
-                        {errors.password.message}
-                      </HelperText>
-                    )}
-                  </View>
+                  <TextField
+                    label="Senha"
+                    secureTextEntry
+                    onBlur={onBlur}
+                    onChangeText={onChange}
+                    invalid={!!errors.password}
+                    message={errors.password?.message}
+                    value={value}
+                  />
                 )}
               />
             </View>
 
-            <Button
-              mode="contained"
-              onPress={handleSubmit(onSubmit)}
-              loading={isSubmitting}
-              disabled={isSubmitting || !isValid}
-              style={styles.button}
-            >
-              ENTRAR
-            </Button>
-          </View>
-        </Surface>
+            <View>
+              <Button
+                onPress={handleSubmit(onSubmit)}
+                disabled={isSubmitting || !isValid}
+              >
+                {isSubmitting ? (
+                  <ActivityIndicator
+                    size="large"
+                    color={themes.light.primary[100]}
+                  />
+                ) : (
+                  <TypoGraphy.button>Entrar</TypoGraphy.button>
+                )}
+              </Button>
+
+              <Space y={15} />
+
+              <Divider />
+
+              <FooterStyled>
+                <TypoGraphyStyled>Não tem uma conta?&nbsp;</TypoGraphyStyled>
+
+                <TouchableOpacity
+                  onPress={() => router.navigate("/(public)/sign-up")}
+                >
+                  <LinkStyled>Crie uma</LinkStyled>
+                </TouchableOpacity>
+              </FooterStyled>
+            </View>
+          </FormStyled>
+        </Wrapper>
       </ScrollView>
     </KeyboardAvoidingView>
   );
@@ -145,34 +154,50 @@ const LoginScreen = () => {
 
 export default LoginScreen;
 
-// --- Styles ---
-export const styles = StyleSheet.create({
-  page: {
-    flex: 1,
-  },
-  thumb: {
-    height: "55%",
-    overflow: "hidden",
-  },
-  container: {
-    flex: 1,
-    justifyContent: "space-between",
-    paddingHorizontal: responsiveHeightPx(16),
-    paddingVertical: responsiveHeightPx(15),
-    paddingBottom: responsiveHeightPx(25),
-    maxWidth: 500,
-    flexShrink: 0,
-    height: "45%",
-  },
-  wrapper: {
-    flexDirection: "column",
-    marginVertical: responsiveHeightPx(25),
-    paddingHorizontal: responsiveHeightPx(15),
-    gap: responsiveHeightPx(6),
-  },
-  button: {
-    marginTop: responsiveHeightPx(8),
-    marginBottom: responsiveHeightPx(14),
-    marginHorizontal: responsiveHeightPx(15),
-  },
-});
+export type FormStyledProps = {};
+
+export type SigningProps = {
+  navigation: NavigationProp<any, any>;
+};
+
+export const FormStyled = styled.View<FormStyledProps>`
+  height: 100%;
+  max-height: 65%;
+  flex-direction: column;
+  justify-content: space-between;
+
+  background: ${({ theme }) => theme.background[100]};
+
+  padding: ${yScale(25)}px;
+  padding-top: ${yScale(40)}px;
+`;
+
+export const LinkStyled = styled(TypoGraphy.strong)`
+  color: ${({ theme }) => theme.primary[200]};
+`;
+
+export const TypoGraphyStyled = styled(TypoGraphy.p)`
+  color: ${({ theme }) => theme.text[100]};
+`;
+
+export const LinkOpacityStyled = styled.TouchableOpacity`
+  width: 100%;
+  align-items: flex-end;
+`;
+
+export const FooterStyled = styled.View`
+  width: 100%;
+
+  flex-direction: row;
+  justify-content: center;
+  align-items: baseline;
+`;
+
+export const Wrapper = styled.View`
+  flex: 1;
+  width: 100%;
+  height: ${height}px;
+  flex-direction: column;
+  background: ${({ theme }) => theme.primary[100]};
+  justify-content: flex-end;
+`;

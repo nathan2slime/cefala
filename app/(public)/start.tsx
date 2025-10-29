@@ -1,36 +1,40 @@
 import { useRouter } from "expo-router";
 import * as React from "react";
 import { StyleSheet, View } from "react-native";
-import { Button, Text } from "react-native-paper";
 import { responsiveHeightPx } from "@/utils";
 import { Page } from "@/components/page";
+import { TypoGraphy } from "@/components/typography";
+import { Button } from "@/components/button";
+import { Space } from "@/components/space";
+import { themes } from "@/themes";
 
 const AppIntroScreen = () => {
   const router = useRouter();
 
   return (
-    <Page >
+    <Page>
       <View style={styles.container}>
+        <TypoGraphy.h1 style={styles.title}>CÊFALA – SUA VOZ. SEU ESPAÇO. SUA ESCOLA</TypoGraphy.h1>
+        <TypoGraphy.p style={styles.paragraph}>
+          Nosso objetivo é oferecer a você, estudante de Caxias – Maranhão, um
+          aplicativo educacional seguro, acolhedor e interativo. Aqui, você pode
+          se expressar, refletir e se conectar facilmente com o setor de
+          Psicologia da escola.
+        </TypoGraphy.p>
+        
+        <Space y={40} />
 
-      <Text variant="titleLarge" style={styles.title}>
-        CÊFALA – SUA VOZ. SEU ESPAÇO. SUA ESCOLA
-      </Text>
-      <Text style={styles.objective}>
-        Nosso objetivo é oferecer a você, estudante de Caxias – Maranhão, um aplicativo educacional seguro,
-        acolhedor e interativo. Aqui, você pode se expressar, refletir e se
-        conectar facilmente com o setor de Psicologia da escola.
-      </Text>
-      <View style={styles.buttonContainer}>
-        <Button
-          mode="contained"
-          onPress={() => router.navigate("/(public)/sign-up")}
-        >
-          Cadastre-se
-        </Button>
-        <Button mode="outlined" onPress={() => router.navigate("/(public)/sign-in")}>
-          Entrar
-        </Button>
-      </View>
+        <View style={styles.buttonw}>
+          <Button onPress={() => router.navigate("/(public)/sign-up")}>
+            <TypoGraphy.button>Cadastre-se</TypoGraphy.button>
+          </Button>
+          <Button
+            variant="outline"
+            onPress={() => router.navigate("/(public)/sign-in")}
+          >
+            <TypoGraphy.button>Entrar</TypoGraphy.button>
+          </Button>
+        </View>
       </View>
     </Page>
   );
@@ -47,22 +51,20 @@ const styles = StyleSheet.create({
 
   title: {
     textAlign: "center",
-    marginBottom: responsiveHeightPx(12),
+    color: themes.light.primary[100],
+    textDecorationLine: "underline",
+    marginBottom: responsiveHeightPx(20),
   },
   paragraph: {
     textAlign: "center",
-    marginBottom: responsiveHeightPx(16),
+    marginBottom: responsiveHeightPx(20),
   },
   objective: {
-    fontSize: responsiveHeightPx(14),
     textAlign: "center",
     marginBottom: responsiveHeightPx(32),
   },
-  buttonContainer: {
+  buttonw: {
     width: "100%",
     gap: responsiveHeightPx(12),
-  },
-  button: {
-    marginVertical: responsiveHeightPx(6),
   },
 });
