@@ -1,3 +1,4 @@
+import { TabBar } from "@/components/tabbar";
 import { useSupabase } from "@/hooks/useSupabase";
 import { Session } from "@supabase/supabase-js";
 import { Tabs } from "expo-router";
@@ -6,15 +7,6 @@ import { View } from "react-native";
 
 import { BottomNavigation, Icon } from "react-native-paper";
 
-const icons: Record<string, any> = {
-  index: "home",
-  schedule: "calendar",
-  reports: "chart-bar",
-  account: "account",
-  service: "headset",
-  classes: "school",
-  diary: "file-document-edit",
-};
 
 const titles: Record<string, string> = {
   index: "Home",
@@ -44,42 +36,21 @@ export default function TabLayout() {
 
   return (
     <Tabs
-      tabBar={({
-        state: { routes, index },
-        descriptors,
-        navigation: { navigate },
-      }) => {
-        return (
-          <BottomNavigation.Bar
-            navigationState={{
-              index,
-              routes: routes.filter((route) =>
-                allowedRoutes.includes(route.name)
-              ),
-            }}
-            onTabPress={({ route }) => {
-              const newIndex = routes.findIndex((r) => r.key === route.key);
-              if (newIndex !== -1) {
-                const route = routes[newIndex];
-
-                navigate(route.name);
-              }
-            }}
-            renderIcon={({ route, color }) => (
-              <View style={{ alignItems: "center" }}>
-                <Icon source={icons[route.name]} size={24} color={color} />
-              </View>
-            )}
-            shifting
-            getLabelText={({ route }) => {
-              return descriptors[route.key].options.title;
-            }}
-          />
-        );
-      }}
       screenOptions={{
         headerShown: false,
       }}
+      tabBar={({ state, ...props }) => (
+        <TabBar
+          {...props}
+          allowedRoutes={allowedRoutes}
+          state={{
+            ...state,
+            routes: state.routes.filter((route) =>
+              allowedRoutes.includes(route.name)
+            ),
+          }}
+        />
+      )}
     >
       {Object.keys(titles)
         .filter((route) => allowedRoutes.includes(route))

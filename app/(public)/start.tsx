@@ -14,7 +14,7 @@ const AppIntroScreen = () => {
   return (
     <Page>
       <View style={styles.container}>
-        <TypoGraphy.h1 style={styles.title}>CÊFALA – SUA VOZ. SEU ESPAÇO. SUA ESCOLA</TypoGraphy.h1>
+        <TypoGraphy.h1 style={styles.title}>CONECTAÊ – SUA VOZ. SEU ESPAÇO. SUA ESCOLA</TypoGraphy.h1>
         <TypoGraphy.p style={styles.paragraph}>
           Nosso objetivo é oferecer a você, estudante de Caxias – Maranhão, um
           aplicativo educacional seguro, acolhedor e interativo. Aqui, você pode

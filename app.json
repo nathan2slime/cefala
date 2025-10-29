@@ -1,11 +1,11 @@
 {
   "expo": {
     "name": "CÊFALA",
-    "slug": "cefala",
+    "slug": "conectaae",
     "version": "1.0.2",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "cefala",
+    "scheme": "conectaae",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
@@ -17,7 +17,7 @@
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": false,
-      "package": "com.nathan3boss.cefala"
+      "package": "com.nathan3boss.conectaae"
     },
     "web": {
       "bundler": "metro",

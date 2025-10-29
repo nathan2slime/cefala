@@ -1,16 +1,9 @@
 import { StyleSheet, View } from "react-native";
-import {
-  Avatar,
-  Button,
-  Card,
-  Text,
-  TextInput,
-  useTheme,
-  Chip,
-} from "react-native-paper";
 import { useEffect, useState } from "react";
 import { useSupabase } from "@/hooks/useSupabase";
 import { Page } from "@/components/page";
+import { yScale } from "@/utils/design";
+import { TypoGraphy } from "@/components/typography";
 
 export default function AccountScreen() {
   const { session, signOut, updateUserName } = useSupabase();
@@ -39,16 +32,8 @@ export default function AccountScreen() {
     setIsEditing(false);
   };
 
-  if (!session) {
-    return (
-      <Page>
-        <Text>Carregando...</Text>
-      </Page>
-    );
-  }
-
-  const email = session.user?.email ?? "";
-  const role = session.user?.user_metadata?.role ?? "student";
+  const email = session?.user?.email ?? "";
+  const role = session?.user?.user_metadata?.role ?? "student";
 
   return (
     <Page>
@@ -63,12 +48,12 @@ export default function AccountScreen() {
         />
 
         <View style={styles.userInfo}>
-          <Text variant="titleLarge" style={styles.name}>
+          <TypoGraphy.h3  style={styles.name}>
             {name}
-          </Text>
-          <Text variant="bodyMedium" style={styles.email}>
+          </TypoGraphy.h3>
+          <TypoGraphy.description >
             {email}
-          </Text>
+          </TypoGraphy.description>
 
           <Chip
             icon={role === "student" ? "school" : "briefcase"}
@@ -126,10 +111,8 @@ export default function AccountScreen() {
           </Button>
 
           <Button
-            mode="contained"
             onPress={signOut}
             style={{ backgroundColor: theme.colors.primary }}
-            icon="logout"
           >
             Sair
           </Button>
@@ -143,21 +126,21 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 16,
+    marginBottom: yScale(16),
   },
   userInfo: {
     flex: 1,
-    marginLeft: 16,
+    marginLeft: yScale(16),
   },
   name: {
     fontWeight: "600",
-    marginBottom: 2,
+    marginBottom: yScale(2),
   },
   email: {
     color: "gray",
   },
   editContainer: {
-    marginTop: 8,
+    marginTop: yScale(2),
   },
   row: {
     flexDirection: "row",
