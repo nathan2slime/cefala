@@ -14,14 +14,17 @@ const AppIntroScreen = () => {
   return (
     <Page>
       <View style={styles.container}>
-        <TypoGraphy.h1 style={styles.title}>CÊFALA – SUA VOZ. SEU ESPAÇO. SUA ESCOLA</TypoGraphy.h1>
+        <TypoGraphy.h1 style={styles.title}>
+          Bem-vindo(a) ao Conectaê!
+        </TypoGraphy.h1>
         <TypoGraphy.p style={styles.paragraph}>
-          Nosso objetivo é oferecer a você, estudante de Caxias – Maranhão, um
-          aplicativo educacional seguro, acolhedor e interativo. Aqui, você pode
-          se expressar, refletir e se conectar facilmente com o setor de
-          Psicologia da escola.
+          Feito especialmente para você, estudante do 1º ano do Ensino Médio,
+          este é o seu espaço para viver novas experiências, se desafiar e
+          crescer junto com a sua escola.
         </TypoGraphy.p>
-        
+        <TypoGraphy.strong style={styles.objective}>
+          Preparado(a) pra começar essa jornada?
+        </TypoGraphy.strong>
         <Space y={40} />
 
         <View style={styles.buttonw}>
@@ -52,7 +55,6 @@ const styles = StyleSheet.create({
   title: {
     textAlign: "center",
     color: themes.light.primary[100],
-    textDecorationLine: "underline",
     marginBottom: responsiveHeightPx(20),
   },
   paragraph: {
