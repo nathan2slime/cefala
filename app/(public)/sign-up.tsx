@@ -166,12 +166,12 @@ const SignUpScreen = () => {
               <Divider />
 
               <FooterStyled>
-                <TypoGraphyStyled>Não tem uma conta?&nbsp;</TypoGraphyStyled>
+                <TypoGraphyStyled>Já tem uma conta?&nbsp;</TypoGraphyStyled>
 
                 <TouchableOpacity
-                  onPress={() => router.navigate("/(public)/sign-up")}
+                  onPress={() => router.navigate("/(public)/sign-in")}
                 >
-                  <LinkStyled>Crie uma</LinkStyled>
+                  <LinkStyled>Entre</LinkStyled>
                 </TouchableOpacity>
               </FooterStyled>
             </View>

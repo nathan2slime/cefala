@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "CÊFALA",
+    "name": "Conectaê",
     "slug": "conectaae",
     "version": "1.0.2",
     "orientation": "portrait",
@@ -16,7 +16,7 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "edgeToEdgeEnabled": false,
+      "edgeToEdgeEnabled": true,
       "package": "com.nathan3boss.conectaae"
     },
     "web": {

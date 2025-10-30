@@ -16,7 +16,7 @@ export const TabBarStyled = styled.View<TabBarStyledProps>`
   position: relative;
   border-top-color: ${({ theme }) => theme.border[200]};
   margin-bottom: ${({ insets }) => insets.bottom}px;
-  background: ${({ theme }) => theme.background[100]};
+  background: ${({ theme }) => theme.background[200]};
   padding: 0 ${yScale(15)}px;
 `;
 

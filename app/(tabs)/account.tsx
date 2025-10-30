@@ -47,7 +47,7 @@ export default function AccountScreen() {
           size={80}
           icon="account"
           style={{
-            backgroundColor: themes.light.background[100],
+            backgroundColor: themes.light.background[200],
           }}
           color={themes.light.primary[100]}
         />
@@ -59,7 +59,7 @@ export default function AccountScreen() {
           <Chip
             icon={role === "student" ? "school" : "briefcase"}
             style={{
-              backgroundColor: themes.light.background[100],
+              backgroundColor: themes.light.background[200],
               alignSelf: "flex-start",
               marginTop: yScale(6),
             }}

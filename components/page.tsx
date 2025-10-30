@@ -17,7 +17,8 @@ type Props = PropsWithChildren<
 
 export const Page = ({ children, title, onClose }: Props) => {
   useEffect(() => {
-    StatusBar.setBarStyle("default");
+    setBackgroundColorAsync(themes.light.background[200]);
+    StatusBar.setBarStyle("dark-content");
   }, []);
 
   return (
@@ -28,7 +29,7 @@ export const Page = ({ children, title, onClose }: Props) => {
           {onClose && <Appbar.Action icon="close" onPress={onClose} />}
         </Appbar.Header>
       )}
-      <View style={{ flex: 1, padding: responsiveHeightPx(16) }}>
+      <View style={{ flex: 1, padding: responsiveHeightPx(16), backgroundColor: themes.light.background[100] }}>
         <SafeAreaView style={{ flex: 1 }}>{children}</SafeAreaView>
       </View>
     </>
