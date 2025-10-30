@@ -17,9 +17,7 @@ type Props = PropsWithChildren<
 
 export const Page = ({ children, title, onClose }: Props) => {
   useEffect(() => {
-    StatusBar.setBackgroundColor(themes.light.primary[100]);
-    StatusBar.setBarStyle("dark-content");
-    setBackgroundColorAsync(themes.light.background[100]);
+    StatusBar.setBarStyle("default");
   }, []);
 
   return (

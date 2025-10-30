@@ -7,30 +7,39 @@ import {
   TabBarItem,
   TabBarItemIcon,
   TabBarStyled,
-  TabBarActionIcon,
-  TabBarAction,
 } from "./styles";
 
 export const TabBar = ({ state, navigation, allowedRoutes }: TabBarProps) => {
   const insets = useSafeAreaInsets();
 
-  const icons: Record<string, any> = {
-    index: "home",
-    schedule: "calendar",
-    reports: "chart-bar",
-    account: "account",
-    service: "headset",
-    classes: "school",
-    diary: "file-document-edit",
-  };
-
   const items: RouteItem = {
-    home: {
+    index: {
       icon: {
         active: "home",
         normal: "home-outline",
       },
       label: "Home",
+    },
+    schedule: {
+      icon: {
+        active: "calendar",
+        normal: "calendar-outline",
+      },
+      label: "Agenda",
+    },
+    service: {
+      icon: {
+        active: "headset",
+        normal: "headset-outline",
+      },
+      label: "Atendimento",
+    },
+    challenges: {
+      icon: {
+        active: "trophy",
+        normal: "trophy-outline",
+      },
+      label: "Desafios",
     },
     diary: {
       icon: {

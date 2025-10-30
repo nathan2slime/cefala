@@ -18,12 +18,12 @@ import {
   useFonts,
 } from "@expo-google-fonts/fredoka";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { ThemeProvider } from "styled-components";
 
 import { SnackbarProvider } from "@/providers/snackbar";
-import { ThemeProvider } from "styled-components";
 import { themes } from "@/themes";
 import { Toast } from "@/components/toast";
-import { SafeAreaProvider } from "react-native-safe-area-context";
+
 import "react-native-reanimated";
 import "react-native-gesture-handler";
 

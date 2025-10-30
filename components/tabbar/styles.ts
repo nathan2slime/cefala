@@ -32,13 +32,13 @@ export const TabBarItem = styled.TouchableOpacity`
 export const TabBarItemIcon = styled(Ionicons)<TabBarItemProps>`
   font-size: ${yScale(24)}px;
   color: ${({ theme, active }) =>
-    active ? theme.primary[200] : theme.text[300]};
+    active ? theme.primary[200] : theme.text[100]};
 `;
 
 export const TabBarItemText = styled(TypoGraphy.p)<TabBarItemProps>`
   font-size: ${yScale(12)}px;
   font-family: ${({ theme, active }) =>
-    active ? theme.fontFamily.regular : theme.fontFamily.regular};
+    active ? theme.fontFamily.semiBold : theme.fontFamily.semiBold};
   text-transform: capitalize;
   color: ${({ theme, active }) =>
     active ? theme.primary[200] : theme.text[100]};

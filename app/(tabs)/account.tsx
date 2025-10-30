@@ -4,10 +4,15 @@ import { useSupabase } from "@/hooks/useSupabase";
 import { Page } from "@/components/page";
 import { yScale } from "@/utils/design";
 import { TypoGraphy } from "@/components/typography";
+import { Avatar, Chip } from "react-native-paper";
+import { themes } from "@/themes";
+import { TextField } from "@/components/input";
+import { Space } from "@/components/space";
+import { Button } from "@/components/button";
+import { Divider } from "@/components/divider";
 
 export default function AccountScreen() {
   const { session, signOut, updateUserName } = useSupabase();
-  const theme = useTheme();
 
   const [isEditing, setIsEditing] = useState(false);
   const [name, setName] = useState<string>(
@@ -42,25 +47,21 @@ export default function AccountScreen() {
           size={80}
           icon="account"
           style={{
-            backgroundColor: theme.colors.primaryContainer,
+            backgroundColor: themes.light.background[100],
           }}
-          color={theme.colors.onPrimaryContainer}
+          color={themes.light.primary[100]}
         />
 
         <View style={styles.userInfo}>
-          <TypoGraphy.h3  style={styles.name}>
-            {name}
-          </TypoGraphy.h3>
-          <TypoGraphy.description >
-            {email}
-          </TypoGraphy.description>
+          <TypoGraphy.h3 style={styles.name}>{name}</TypoGraphy.h3>
+          <TypoGraphy.description>{email}</TypoGraphy.description>
 
           <Chip
             icon={role === "student" ? "school" : "briefcase"}
             style={{
-              backgroundColor: theme.colors.secondaryContainer,
+              backgroundColor: themes.light.background[100],
               alignSelf: "flex-start",
-              marginTop: 6,
+              marginTop: yScale(6),
             }}
           >
             {role === "student" ? "Aluno" : "Profissional"}
@@ -68,27 +69,29 @@ export default function AccountScreen() {
         </View>
       </View>
 
+      <Space y={9} />
+      <Divider />
+      <Space y={9} />
+
       {isEditing ? (
         <View style={styles.editContainer}>
-          <TextInput
-            label="Nome completo"
+          <TextField
+            label="Nome Completo"
             value={tempName}
+            maxLength={80}
             onChangeText={setTempName}
-            mode="outlined"
-            style={{ marginBottom: 12 }}
           />
 
-          <View style={styles.row}>
-            <Button
-              mode="contained"
-              onPress={handleSave}
-              style={{ flex: 1, marginRight: 8 }}
-            >
-              Salvar
-            </Button>
+          <Space y={12} />
 
-            <Button mode="outlined" onPress={handleCancel} style={{ flex: 1 }}>
-              Cancelar
+          <View>
+            <Button onPress={handleSave}>
+              <TypoGraphy.button>Salvar</TypoGraphy.button>
+            </Button>
+            <Space y={7} />
+
+            <Button variant="outline" onPress={handleCancel}>
+              <TypoGraphy.button>Cancelar</TypoGraphy.button>
             </Button>
           </View>
         </View>
@@ -96,25 +99,15 @@ export default function AccountScreen() {
         <View
           style={{
             flexDirection: "column",
-            gap: 5,
+            gap: yScale(6),
           }}
         >
-          <Button
-            mode="outlined"
-            onPress={() => setIsEditing(true)}
-            style={{
-              borderColor: theme.colors.primary,
-            }}
-            icon="pencil"
-          >
-            Editar Nome
+          <Button variant="outline" onPress={() => setIsEditing(true)}>
+            <TypoGraphy.button>Editar</TypoGraphy.button>
           </Button>
 
-          <Button
-            onPress={signOut}
-            style={{ backgroundColor: theme.colors.primary }}
-          >
-            Sair
+          <Button onPress={signOut}>
+            <TypoGraphy.button>Sair</TypoGraphy.button>
           </Button>
         </View>
       )}
@@ -145,5 +138,5 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: "row",
     justifyContent: "space-between",
-  }
+  },
 });
