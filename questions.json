@@ -1,0 +1,193 @@
+{
+  "title": "Aspectos da Sociabilidade de Adolescentes",
+  "questions": [
+    {
+      "id": 1,
+      "text": "Com quais tipos de grupos você mais se identifica ou costuma participar? (composição)",
+      "type": "multi_select",
+      "options": [
+        "Grupos de meninos",
+        "Grupos de meninas",
+        "Grupos mistos",
+        "Outros"
+      ]
+    },
+    {
+      "id": 2,
+      "text": "Com quais tipos de grupos você mais se identifica ou costuma participar? (interesses ou atividades)",
+      "type": "multi_select",
+      "options": [
+        "Grupos da escola",
+        "Grupos esportivos",
+        "Grupos religiosos",
+        "Grupos online",
+        "Grupos culturais",
+        "Outros"
+      ]
+    },
+    {
+      "id": 3,
+      "text": "Com que frequência você participa de atividades com esses grupos?",
+      "type": "rating"
+    },
+    {
+      "id": 4,
+      "text": "O que mais te leva a participar ou querer fazer parte desses grupos?",
+      "type": "single_select",
+      "options": [
+        "Amizade",
+        "Interesses em comum",
+        "Sentir-se aceito(a)",
+        "Desejo de pertencer",
+        "Apoio ou acolhimento",
+        "Outros"
+      ]
+    },
+    {
+      "id": 5,
+      "text": "Em quais grupos você sente que consegue se expressar melhor?",
+      "type": "multi_select",
+      "options": [
+        "Na escola",
+        "Fora da escola",
+        "Online",
+        "Outros"
+      ]
+    },
+    {
+      "id": 6,
+      "text": "O quanto você se sente à vontade para falar, opinar ou participar de conversas nesses grupos?",
+      "type": "rating"
+    },
+    {
+      "id": 7,
+      "text": "O que faz você se sentir mais à vontade para se expressar?",
+      "type": "single_select",
+      "options": [
+        "Respeito dos colegas",
+        "Confiança nas pessoas",
+        "Temas de interesse em comum",
+        "Ambiente acolhedor",
+        "Outros"
+      ]
+    },
+    {
+      "id": 8,
+      "text": "Quando alguém do seu grupo precisa de ajuda, o que você costuma fazer?",
+      "type": "single_select",
+      "options": [
+        "Tento ajudar sempre",
+        "Ajudo quando posso",
+        "Espero que alguém ajude",
+        "Não costumo ajudar",
+        "Outros"
+      ]
+    },
+    {
+      "id": 9,
+      "text": "Com que frequência você colabora ou participa de atividades em grupo?",
+      "type": "rating"
+    },
+    {
+      "id": 10,
+      "text": "O que te faz querer ajudar ou apoiar alguém do grupo?",
+      "type": "single_select",
+      "options": [
+        "Amizade",
+        "Empatia",
+        "Desejo de ver o grupo bem",
+        "Recompensa ou reconhecimento",
+        "Outros"
+      ]
+    },
+    {
+      "id": 11,
+      "text": "Em quais grupos você sente que realmente é aceito(a) e valorizado(a)?",
+      "type": "multi_select",
+      "options": [
+        "Grupos da escola",
+        "Grupos fora da escola",
+        "Grupos online",
+        "Nenhum",
+        "Outros"
+      ]
+    },
+    {
+      "id": 12,
+      "text": "O quanto você sente que pertence a esses grupos?",
+      "type": "rating"
+    },
+    {
+      "id": 13,
+      "text": "O que faz você se sentir parte de um grupo?",
+      "type": "single_select",
+      "options": [
+        "Ser ouvido e respeitado",
+        "Ter amigos próximos",
+        "Participar das atividades",
+        "Ter interesses parecidos",
+        "Outros"
+      ]
+    },
+    {
+      "id": 14,
+      "text": "Como você descreveria o ambiente entre os alunos na sua escola?",
+      "type": "single_select",
+      "options": [
+        "Respeitoso e acolhedor",
+        "Tranquilo, mas distante",
+        "Com conflitos frequentes",
+        "Tenso ou desagradável",
+        "Outros"
+      ]
+    },
+    {
+      "id": 15,
+      "text": "O quanto você se sente bem e confortável na convivência com colegas e professores?",
+      "type": "rating"
+    },
+    {
+      "id": 16,
+      "text": "O que você acha que poderia melhorar no clima da sua escola?",
+      "type": "multi_select",
+      "options": [
+        "Mais diálogo entre alunos e professores",
+        "Mais atividades em grupo",
+        "Respeito mútuo",
+        "Espaços de escuta",
+        "Outros"
+      ]
+    },
+    {
+      "id": 17,
+      "text": "Com quais tipos de grupos da escola você sente que consegue lidar melhor emocionalmente?",
+      "type": "multi_select",
+      "options": [
+        "Grupos de amigos próximos",
+        "Grupos mistos",
+        "Grupos com colegas de outra turma",
+        "Grupos de atividades",
+        "Grupos com opiniões diferentes",
+        "Outros"
+      ]
+    },
+    {
+      "id": 18,
+      "text": "Com que frequência você percebe que consegue lidar bem com suas emoções quando está em grupo?",
+      "type": "rating"
+    },
+    {
+      "id": 19,
+      "text": "O que te ajuda a controlar melhor suas emoções quando está em grupo?",
+      "type": "multi_select",
+      "options": [
+        "Pensar antes de responder",
+        "Respirar fundo",
+        "Conversar com alguém de confiança",
+        "Sair do grupo por um tempo e voltar",
+        "Lembrar que nem tudo precisa ser resolvido na hora",
+        "Outros"
+      ]
+    }
+  ]
+}
